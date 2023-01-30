@@ -1,0 +1,9 @@
+select * from yellow_taxi_data
+
+select count(*) from yellow_taxi_data_new where to_char(lpep_pickup_datetime,'YYYY-MM-DD') = '2019-01-15' and to_char(lpep_dropoff_datetime,'YYYY-MM-DD') = '2019-01-15'
+
+select to_char(lpep_pickup_datetime,'YYYY-MM-DD') as trip_date, sum(lpep_dropoff_datetime - lpep_pickup_datetime) as time_diff from yellow_taxi_data_new where to_char(lpep_pickup_datetime,'YYYY-MM-DD') = to_char(lpep_dropoff_datetime,'YYYY-MM-DD') and to_char(lpep_pickup_datetime,'YYYY-MM-DD') in ('2019-01-18','2019-01-28','2019-01-15','2019-01-10') group by to_char(lpep_pickup_datetime,'YYYY-MM-DD')
+
+select passenger_count,count(passenger_count) from yellow_taxi_data_new where to_char(lpep_pickup_datetime,'YYYY-MM-DD') = '2019-01-01' and passenger_count in (2,3) group by passenger_count
+
+select z1."Zone",z2."Zone",max(tip_amount) from yellow_taxi_data_new, zones_new as z1, zones_new as z2 where yellow_taxi_data_new."PULocationID" = z1."LocationID" and yellow_taxi_data_new."DOLocationID" = z2."LocationID" and z1."Zone" in ('Astoria','Astoria Park') group by z1."Zone", z2."Zone" order by max(tip_amount) desc
